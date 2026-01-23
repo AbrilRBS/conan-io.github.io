@@ -36,20 +36,13 @@ let’s use the upstream regression example from pytorch.
 You can follow along by cloning the contents of the regression folder in
 <https://github.com/pytorch/examples/tree/main/cpp/regression>.
 
-Once we have this, with modern Conan integrations, using libtorch is as easy as adding a ``conanfile.txt`` to your project,
-with contents that look something like:
+Once we have this, with modern Conan integrations, using libtorch is as initializing a ``conanfile.py``
+in the ``cpp/regression`` folder:
 
-
-```ini
-[requires]
-libtorch/[*]
-
-[layout]
-cmake_layout
-
-[generators]
-CMakeDeps
-CMakeToolchain
+```bash
+$ cd cpp/regression
+$ conan new
+$ conan add "libtorch/[*]"
 ```
 
 Then running Conan to ensure the package is available locally:
@@ -59,7 +52,6 @@ $ conan install -b=missing
 ```
 
 And now, we can build the example using CMake as we would normally do.
-
 
 > Note that for Windows, the following configure preset name should be replaced by `conan-default` (using the same ``conan-release`` for the build preset.
 
@@ -73,6 +65,14 @@ $ ./build/Release/regression
   <img src="{{ site.baseurl }}/assets/post_images/2026-01-20/blogpost-run.gif"
        alt="Regression example output"/>
 </div>
+
+Or, alternatively, using Conan to handle the CMake calls for us:
+
+```bash
+$ conan build
+$ ./build/Release/regression
+```
+
 
 We can now see that the example correctly compiled, and it successfully found our target polynomial,
 and as the default error is set to quite a small value in the code, the plotted polynomials have quite the overlap.
